@@ -24,8 +24,8 @@ enum RET_ERRORS
 
 void usage(LPCTSTR binName)
 {
-    _tprintf(_T("Usage: %s global <proxy server> [<bypass>]\n"), binName);
-    _tprintf(_T("       %s pac <pac url>\n"), binName);
+    _tprintf(_T("Usage: %s global <proxy-server> [<bypass>]\n"), binName);
+    _tprintf(_T("       %s pac <pac-url>\n"), binName);
     _tprintf(_T("       %s off\n"), binName);
 
     exit(INVALID_FORMAT);
@@ -190,6 +190,12 @@ int _tmain(int argc, LPTSTR argv[])
     }
     else if (_tcscmp(argv[1], _T("global")) == 0 && argc >= 3)
     {
+        if (argc > 4)
+        {
+            _ftprintf(stderr, _T("Error: bypass list shouldn't contain spaces, please check parameters.\n"));
+            usage(argv[0]);
+        }
+
         initialize(&options, 3);
 
         options.pOptions[0].Value.dwValue = PROXY_TYPE_PROXY | PROXY_TYPE_DIRECT;
@@ -199,12 +205,7 @@ int _tmain(int argc, LPTSTR argv[])
 
         options.pOptions[2].dwOption = INTERNET_PER_CONN_PROXY_BYPASS;
 
-        if (argc > 4)
-        {
-            _tprintf(_T("Error: bypass list shouldn't contain spaces, please check parameters.\n"));
-            usage(argv[0]);
-        }
-        else if (argc == 4)
+        if (argc == 4)
         {
             options.pOptions[2].Value.pszValue = argv[3];
         }
@@ -228,7 +229,9 @@ int _tmain(int argc, LPTSTR argv[])
     }
 
 
-    apply(&options);
+    int ret = apply(&options);
 
-    return RET_NO_ERROR;
+    free(options.pOptions);
+
+    return ret;
 }
