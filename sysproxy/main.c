@@ -217,7 +217,7 @@ int _tmain(int argc, LPTSTR argv[])
     {
         initialize(&options, 2);
 
-        options.pOptions[0].Value.dwValue = PROXY_TYPE_AUTO_PROXY_URL;
+        options.pOptions[0].Value.dwValue = PROXY_TYPE_AUTO_PROXY_URL | PROXY_TYPE_DIRECT;
 
         options.pOptions[1].dwOption = INTERNET_PER_CONN_AUTOCONFIG_URL;
         options.pOptions[1].Value.pszValue = argv[2];
