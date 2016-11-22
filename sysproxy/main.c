@@ -137,7 +137,7 @@ int apply(INTERNET_PER_CONN_OPTION_LIST* options)
 
         if (ERROR_SUCCESS != dwRet)
         {
-            reportError(_T("RasEnumEntries"));
+            _ftprintf(stderr, _T("Error RasEnumEntries: %d\n"), dwRet);
 
             ret = SYSCALL_FAILED;
         }
