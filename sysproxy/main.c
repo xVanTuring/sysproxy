@@ -112,13 +112,12 @@ int apply(INTERNET_PER_CONN_OPTION_LIST* options)
     DWORD dwCb = 0;
     DWORD dwRet;
     DWORD dwEntries = 0;
-    LPRASENTRYNAME lpRasEntryName = NULL;
 
-    dwRet = RasEnumEntries(NULL, NULL, lpRasEntryName, &dwCb, &dwEntries);
+    dwRet = RasEnumEntries(NULL, NULL, NULL, &dwCb, &dwEntries);
 
     if (dwRet == ERROR_BUFFER_TOO_SMALL)
     {
-        lpRasEntryName = (LPRASENTRYNAME)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwCb);
+        LPRASENTRYNAME lpRasEntryName = (LPRASENTRYNAME)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwCb);
 
         if (lpRasEntryName == NULL)
         {
