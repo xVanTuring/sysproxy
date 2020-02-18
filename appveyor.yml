@@ -1,0 +1,21 @@
+version: 0.0.{build}
+image: Visual Studio 2019
+configuration: Release
+platform:
+  - x64
+  - x86
+
+artifacts:
+  - path: x64\Release\sysproxy64.exe
+    name: sysproxy64.exe
+  - path: Win32\Release\sysproxy.exe
+    name: sysproxy.exe
+
+deploy:
+  provider: GitHub
+  auth_token:
+    secure: qlVsf6L94YYw5VFpsyqKgDTWofKUpRglC6HlmEbj98+0nd9H1BTEm84NIwzwwhz1
+  artifact: /.*\.exe/ # upload all Exe packages to release assets
+  draft: true
+  on:
+    APPVEYOR_REPO_TAG: true
